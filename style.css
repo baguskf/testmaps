@@ -1,0 +1,40 @@
+.pilih-map {
+    background-color: #f8f9fa; /* Warna latar belakang */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ced4da; /* Warna border */
+}
+
+.pilih-map label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.pilih-map input[type="radio"] {
+    margin-right: 5px;
+}
+
+.legend {
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.legend-item {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border: 1px solid #888;
+}
+
+.legend-text {
+    font-size: 14px;
+}
+
