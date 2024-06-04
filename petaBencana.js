@@ -5,13 +5,13 @@ var ewi = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Worl
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 });
 
-// Membuat elemen <link> untuk CSS
+
 var linkElement = document.createElement('link');
 linkElement.rel = 'stylesheet';
 linkElement.type = 'text/css';
-linkElement.href = 'style.css'; // Ganti 'style.css' dengan lokasi dan nama file CSS Anda
+linkElement.href = 'style.css'; 
 
-// Menambahkan elemen <link> ke dalam <head> dokumen
+
 document.head.appendChild(linkElement);
 
 
@@ -43,23 +43,13 @@ function mystyle(Feature) {
     };
 };
 
-function styleKorban(Feature) {
-    return {
-        fillColor: warnaKorban(Feature.properties.status),
-        weight: 2,
-        opacity: 0,
-        dashArray: '3',
-        fillOpacity: 0.5
-    };
-};
+
 
 function popUpData(feature, layer) {
     if (feature.properties) {
         var propertyNames = {
             'kecamatan': 'Kecamatan',
             'desa': 'Desa',
-            'jumlah_korban': 'Jumlah Korban',
-            'jumlah_persentase_korban': 'Jumlah Persentase Korban',
             'status': 'Status'
         }; 
 
@@ -81,41 +71,11 @@ var baseMapsData = {
     "EWI" : ewi
 };
 
-var pilihMap = L.control();
-
-pilihMap.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'pilih-map');
-    div.innerHTML += '<label><input type="radio" name="mapType" value="bencana" onclick="tampilkanBencana()" > Peta Daerah Rawan Kekeringan</label>';
-    div.innerHTML += '<label><input type="radio" name="mapType" value="korban" onclick="tampilkanKorban()"> Peta Sebaran Korban</label>';
-    return div;
-};
-
-
-pilihMap.addTo(peta);
 
 var layerControlBaseMaps = L.control.layers(baseMapsData).addTo(peta);
 
 var geojsonBencana = new L.GeoJSON.AJAX(
     "MyKekeringan.geojson", {style : mystyle, onEachFeature: popUpData});
-    
-var geojsonKorban = new L.GeoJSON.AJAX(
-    "MyPersentase.geojson", {style : styleKorban, onEachFeature: popUpData});
-
-function tampilkanBencana() {
-    peta.removeLayer(geojsonKorban);
-    geojsonBencana.addTo(peta);
-    legend.addTo(peta);
-    peta.removeControl(legendKorban);
-}
-
-function tampilkanKorban() {
-    peta.removeLayer(geojsonBencana);
-    geojsonKorban.addTo(peta);
-    legendKorban.addTo(peta);
-    peta.removeControl(legend);
-}
-
-osm.addTo(peta);
 
 
 var legend = L.control({position: 'bottomright'});
@@ -139,26 +99,10 @@ legend.onAdd = function (map) {
     return div;
 };
 
-var legendKorban = L.control({position: 'bottomright'});
 
-legendKorban.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'legend');
-    div.innerHTML = '<h3>Korban Kekeringan</h3>';
-    var legendColors = {
-        'Sangat Rendah' : '#008000',
-        'Rendah' : '#FFFF00',
-        'Menengah' :  '#FFA500',
-        'Tinggi' : '#FF0000'
-    };
-
-    for (var key in legendColors) {
-        div.innerHTML += '<div class="legend-item">' +
-            '<div class="legend-color" style="background-color:' + legendColors[key] + '"></div>' +
-            '<div class="legend-text">' + key + '</div>' +
-            '</div>';
-    }
-    return div;
-};
+osm.addTo(peta);
+geojsonBencana.addTo(peta);
+legend.addTo(peta);
 
 
 
